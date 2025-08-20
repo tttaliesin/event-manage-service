@@ -1,0 +1,25 @@
+[project]
+name = "event-manage-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dependency-injector>=4.48.1",
+    "fastapi>=0.116.1",
+    "python-socketio>=5.13.0",
+    "uvicorn>=0.35.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "httpx>=0.28.1",
+    "isort>=6.0.1",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "pytest-mock>=3.14.1",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
