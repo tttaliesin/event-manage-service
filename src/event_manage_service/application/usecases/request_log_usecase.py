@@ -1,10 +1,10 @@
 from typing import List, Dict, Any
-from event_manage_service.application.port.inbound.sevice_log_inbound_port import ServiceLogInboundPort
+from event_manage_service.application.port.inbound.sevice_log_controller import ServiceLogController
 from event_manage_service.application.port.outbound.service_log_repository import ServiceLogRepository
 from event_manage_service.domain.service.request_log_service import RequestLogService
 from event_manage_service.domain.model.request_log import RequestLog
 
-class RequestLogUseCase(ServiceLogInboundPort):
+class RequestLogUseCase(ServiceLogController):
     def __init__(self, repository: ServiceLogRepository, domain_service: RequestLogService):
         self.repository = repository
         self.domain_service = domain_service

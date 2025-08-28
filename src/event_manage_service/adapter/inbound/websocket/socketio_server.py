@@ -1,7 +1,7 @@
 import logging
 import socketio
 from event_manage_service.application.port.inbound.event_subscriber import EventSubscriber
-from event_manage_service.application.port.inbound.sevice_log_inbound_port import ServiceLogInboundPort
+from event_manage_service.application.port.inbound.sevice_log_controller import ServiceLogController
 from event_manage_service.application.dto.socketio_dto import (
     CaptureStatusResponseDTO,
     VideoFrameFromServiceDTO,
@@ -17,7 +17,7 @@ class SocektIOServer:
         self,
         sio: socketio.AsyncServer,
         socketio_inbound_port: EventSubscriber,
-        event_logger: ServiceLogInboundPort
+        event_logger: ServiceLogController
     ):
         self.sio = sio
         self.socketio_inbound_port = socketio_inbound_port

@@ -31,7 +31,7 @@ class TestSocektIOServer:
 
     @pytest.fixture
     def mock_event_logger(self) -> Mock:
-        """이벤트 로거(ServiceLogInboundPort) 모킹"""
+        """이벤트 로거(ServiceLogController) 모킹"""
         logger = Mock()
         return logger
 
