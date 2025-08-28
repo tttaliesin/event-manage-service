@@ -2,7 +2,7 @@ import pytest
 from typing import Any, Dict
 from unittest.mock import Mock, AsyncMock, patch
 import socketio
-from event_manage_service.adapter.inbound.websocket.socketio_server import SocektIOServer
+from event_manage_service.adapter.inbound.websocket.socketio_server import SocketIOServer
 from event_manage_service.application.dto.socketio_dto import (
     ResponseClientMetadataDTO,
     VideoFrameFromServiceDTO,
@@ -10,8 +10,8 @@ from event_manage_service.application.dto.socketio_dto import (
 )
 
 
-class TestSocektIOServer:
-    """SocektIOServer 테스트 케이스"""
+class TestSocketIOServer:
+    """SocketIOServer 테스트 케이스"""
 
     @pytest.fixture
     def mock_socketio_inbound_port(self) -> Mock:
@@ -36,22 +36,22 @@ class TestSocektIOServer:
         return logger
 
     @pytest.fixture
-    def socketio_adapter(self, mock_socketio_server: Mock, mock_socketio_inbound_port: Mock, mock_event_logger: Mock) -> SocektIOServer:
-        """모킹된 의존성을 가진 SocektIOServer 인스턴스"""
-        return SocektIOServer(
+    def socketio_adapter(self, mock_socketio_server: Mock, mock_socketio_inbound_port: Mock, mock_event_logger: Mock) -> SocketIOServer:
+        """모킹된 의존성을 가진 SocketIOServer 인스턴스"""
+        return SocketIOServer(
             sio=mock_socketio_server,
             socketio_inbound_port=mock_socketio_inbound_port,
             event_logger=mock_event_logger
         )
 
-    def test_adapter_initialization(self, socketio_adapter: SocektIOServer, mock_socketio_server: Mock, mock_socketio_inbound_port: Mock, mock_event_logger: Mock) -> None:
+    def test_adapter_initialization(self, socketio_adapter: SocketIOServer, mock_socketio_server: Mock, mock_socketio_inbound_port: Mock, mock_event_logger: Mock) -> None:
         """어댑터 초기화 테스트"""
         assert socketio_adapter.sio is mock_socketio_server
         assert socketio_adapter.socketio_inbound_port is mock_socketio_inbound_port
         assert socketio_adapter.event_logger is mock_event_logger
 
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    def test_register_event_decorates_handlers(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_server: Mock) -> None:
+    def test_register_event_decorates_handlers(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_server: Mock) -> None:
         """이벤트 등록이 핸들러를 적절히 데코레이트하는지 테스트"""
         socketio_adapter.resister_event()
         
@@ -60,7 +60,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_connect_event_handler(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_connect_event_handler(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """연결 이벤트 핸들러 테스트"""
         socketio_adapter.resister_event()
         
@@ -83,7 +83,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_response_client_metadata_valid_data(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_response_client_metadata_valid_data(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """유효한 데이터로 클라이언트 메타데이터 응답 이벤트 핸들러 테스트"""
         socketio_adapter.resister_event()
         
@@ -109,7 +109,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_response_client_metadata_invalid_data(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_response_client_metadata_invalid_data(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """잘못된 데이터로 클라이언트 메타데이터 응답 이벤트 핸들러 테스트"""
         socketio_adapter.resister_event()
         
@@ -131,7 +131,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_disconnect_event_handler(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_disconnect_event_handler(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """연결 끊기 이벤트 핸들러 테스트"""
         socketio_adapter.resister_event()
         
@@ -154,7 +154,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_start_capture_event_handler(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_start_capture_event_handler(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """캐처 시작 이벤트 핸들러 테스트"""
         socketio_adapter.resister_event()
         
@@ -176,7 +176,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_video_frame_relay_valid_data(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_video_frame_relay_valid_data(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """유효한 데이터로 비디오 프레임 릴레이 이벤트 핸들러 테스트"""
         socketio_adapter.resister_event()
         
@@ -201,7 +201,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_video_frame_relay_invalid_data(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_video_frame_relay_invalid_data(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """잘못된 데이터로 비디오 프레임 릴레이 이벤트 핸들러 테스트"""
         socketio_adapter.resister_event()
         
@@ -223,7 +223,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_broadcast_capture_status_valid_data(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_broadcast_capture_status_valid_data(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """유효한 데이터로 캐처 상태 브로드캐스트 이벤트 핸들러 테스트"""
         socketio_adapter.resister_event()
         
@@ -249,7 +249,7 @@ class TestSocektIOServer:
         assert call_args[0][1].is_active is True
 
     @pytest.mark.asyncio
-    async def test_all_basic_events_registered(self, socketio_adapter: SocektIOServer, mock_socketio_server: Mock) -> None:
+    async def test_all_basic_events_registered(self, socketio_adapter: SocketIOServer, mock_socketio_server: Mock) -> None:
         """모든 기본 이벤트가 등록되었는지 테스트"""
         socketio_adapter.resister_event()
         
@@ -277,7 +277,7 @@ class TestSocektIOServer:
 
     @pytest.mark.asyncio
     @patch('event_manage_service.adapter.inbound.websocket.socketio_server.logger')
-    async def test_error_handling_preserves_logging(self, mock_logger: Mock, socketio_adapter: SocektIOServer, mock_socketio_inbound_port: Mock) -> None:
+    async def test_error_handling_preserves_logging(self, mock_logger: Mock, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: Mock) -> None:
         """에러 처리가 디버그 정보를 로깅하는지 테스트"""
         socketio_adapter.resister_event()
         

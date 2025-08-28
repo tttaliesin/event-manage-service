@@ -12,16 +12,14 @@ logger = logging.getLogger(__name__)
 
 
 
-class SocektIOServer:
+class SocketIOServer:
     def __init__ (
         self,
         sio: socketio.AsyncServer,
         socketio_inbound_port: EventSubscriber,
-        event_logger: ServiceLogController
     ):
         self.sio = sio
         self.socketio_inbound_port = socketio_inbound_port
-        self.event_logger = event_logger
 
     def resister_event(self):
         @self.sio.event
