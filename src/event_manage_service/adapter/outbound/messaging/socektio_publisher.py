@@ -7,7 +7,7 @@ from event_manage_service.config.constants import (
     EmitEvent,
     Rooms
 )
-from event_manage_service.application.port.outbound.event_Publisher import EventPublisher
+from event_manage_service.application.port.outbound.event_publisher import EventPublisher
 from event_manage_service.application.dto.socketio_dto import (
     VideoFrameFromServiceDTO,
     CaptureStatusResponseDTO
