@@ -7,7 +7,7 @@ from event_manage_service.config.constants import (
     EmitEvent,
     Rooms
 )
-from event_manage_service.application.port.outbound.socketio_outbound_port import SocketIOOutboundPort
+from event_manage_service.application.port.outbound.event_Publisher import EventPublisher
 from event_manage_service.application.dto.socketio_dto import (
     VideoFrameFromServiceDTO,
     CaptureStatusResponseDTO
@@ -16,7 +16,7 @@ from event_manage_service.domain.service.stream_management_service import Stream
 
 logger = logging.getLogger(__name__)
 
-class SocketioOutboundAdapter(SocketIOOutboundPort):
+class SocketIOPublisher(EventPublisher):
     def __init__(self, sio: socketio.AsyncServer, emit_event: EmitEvent, rooms: Rooms, stream_management_service: StreamManagementService):
         self.sio = sio
         self.rooms = rooms

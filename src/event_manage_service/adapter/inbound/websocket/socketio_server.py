@@ -1,6 +1,6 @@
 import logging
 import socketio
-from event_manage_service.application.port.inbound.socketio_inbound_port import SocketIOInboundPort
+from event_manage_service.application.port.inbound.event_subscriber import EventSubscriber
 from event_manage_service.application.port.inbound.sevice_log_inbound_port import ServiceLogInboundPort
 from event_manage_service.application.dto.socketio_dto import (
     CaptureStatusResponseDTO,
@@ -12,11 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 
-class SocketIOInboundAdapter:
+class SocektIOServer:
     def __init__ (
         self,
         sio: socketio.AsyncServer,
-        socketio_inbound_port: SocketIOInboundPort,
+        socketio_inbound_port: EventSubscriber,
         event_logger: ServiceLogInboundPort
     ):
         self.sio = sio

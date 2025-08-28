@@ -27,7 +27,7 @@ class TestSimpleSocketIO:
 
     @pytest.fixture
     def mock_socketio_inbound_port(self) -> AsyncMock:
-        """SocketIOInboundPort 모킹"""
+        """EventSubscriber 모킹"""
         port = AsyncMock()
         port.handle_client_connect = AsyncMock()
         port.handle_response_client_metadata = AsyncMock()

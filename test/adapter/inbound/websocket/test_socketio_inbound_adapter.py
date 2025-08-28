@@ -15,7 +15,7 @@ class TestSocektIOServer:
 
     @pytest.fixture
     def mock_socketio_inbound_port(self) -> Mock:
-        """SocketIOInboundPort 모킹"""
+        """EventSubscriber 모킹"""
         port = Mock()
         port.handle_client_connect = AsyncMock()
         port.handle_response_client_metadata = AsyncMock()

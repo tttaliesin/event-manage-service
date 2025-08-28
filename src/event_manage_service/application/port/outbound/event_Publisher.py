@@ -6,7 +6,7 @@ from event_manage_service.application.dto.socketio_dto import (
     CaptureStatusResponseDTO
 )
 
-class SocketIOOutboundPort(ABC):
+class EventPublisher(ABC):
     
     @abstractmethod
     def set_stream_service(self, sid):
