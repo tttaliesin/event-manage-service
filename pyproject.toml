@@ -38,9 +38,7 @@ testpaths = ["test"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-pythonpath = [
-    "src"
-]
+pythonpath = ["src"]
 addopts = [
     "--import-mode=importlib",
     "--verbose",
@@ -49,15 +47,5 @@ addopts = [
     "--strict-config",
     "--disable-warnings",
     "-ra"
-]
-markers = [
-    "unit: Unit tests",
-    "integration: Integration tests", 
-    "slow: Slow running tests",
-    "asyncio: Async tests"
-]
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore::PendingDeprecationWarning"
 ]
 asyncio_mode = "auto"
