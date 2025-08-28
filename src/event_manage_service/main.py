@@ -6,11 +6,11 @@ from event_manage_service.config.settings import settings
 from event_manage_service.config.container import Container
 from event_manage_service.adapter.outbound.persistence.entity import Base
 from sqlalchemy import select
-from event_manage_service.adapter.inbound.websocket.socketio_inbound_adapter import SocketIOInboundAdapter
+from event_manage_service.adapter.inbound.websocket.socketio_server import SocektIOServer
 from event_manage_service.adapter.inbound.http.service_log_router import router as log_router
 
 def setup_socketio_handlers(sio, stream_handler, event_logger):
-    adapter = SocketIOInboundAdapter(sio, stream_handler, event_logger)
+    adapter = SocektIOServer(sio, stream_handler, event_logger)
     adapter.resister_event()
 
 
