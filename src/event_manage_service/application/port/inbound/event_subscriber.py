@@ -6,7 +6,7 @@ from event_manage_service.application.dto.socketio_dto import (
     ResponseClientMetadataDTO
 )
 
-class SocketIOInboundPort(ABC):
+class EventSubscriber(ABC):
     
     @abstractmethod
     async def handle_client_connect(self, sid) -> None:

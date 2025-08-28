@@ -13,7 +13,7 @@ from event_manage_service.application.usecases.request_log_usecase import Reques
 from event_manage_service.application.usecases.broadcast_stream_usecase import BroadcastStreamUseCase
 
 from event_manage_service.adapter.outbound.persistence.service_log_repository_impl import ServiceLogRepositoryImpl
-from event_manage_service.adapter.outbound.messaging.socektio_outbound_adapter import SocketioOutboundAdapter
+from event_manage_service.adapter.outbound.messaging.socektio_publisher import SocketIOPublisher
 
 from event_manage_service.config.constants import EmitEvent, Rooms
 
@@ -63,7 +63,7 @@ class Container(containers.DeclarativeContainer):
     )
     
     socketio_outbound_port = providers.Factory(
-        SocketioOutboundAdapter,
+        SocketIOPublisher,
         sio=socketio_server,
         emit_event=emit_event,
         rooms=rooms,

@@ -1,7 +1,7 @@
 import logging
 
-from event_manage_service.application.port.inbound.socketio_inbound_port import SocketIOInboundPort
-from event_manage_service.application.port.outbound.socketio_outbound_port import SocketIOOutboundPort
+from event_manage_service.application.port.inbound.event_subscriber import EventSubscriber
+from event_manage_service.application.port.outbound.event_Publisher import EventPublisher
 from event_manage_service.application.port.outbound.service_log_repository import ServiceLogRepository
 from event_manage_service.application.dto.socketio_dto import (
     CaptureStatusResponseDTO,
@@ -16,10 +16,10 @@ from event_manage_service.config.constants import Rooms
 
 logger = logging.getLogger(__name__)
 
-class BroadcastStreamUseCase(SocketIOInboundPort):
+class BroadcastStreamUseCase(EventSubscriber):
     def __init__(
         self,
-        socketio_outbound_port: SocketIOOutboundPort,
+        socketio_outbound_port: EventPublisher,
         service_log_repository: ServiceLogRepository,
         stream_management_service: StreamManagementService,
         request_log_service: RequestLogService,
