@@ -96,4 +96,4 @@ class BroadcastStreamUseCase(EventSubscriber):
         await self.event_publisher.request_capure_status()
         
     async def handle_broadcast_capture_status(self, dto: CaptureStatusResponseDTO) -> None:
-        await self.event_publisher.broadcast_caputere_status(dto)
+        await self.event_publisher.broadcast_capture_status(dto)
