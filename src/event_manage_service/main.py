@@ -58,7 +58,7 @@ async def create_app() -> FastAPI:
     # Initialize SocketIO server (inbound adapter)
     socketio_server = SocketIOServer(
         sio=container.sio(),
-        socketio_inbound_port=container.broadcast_stream_usecase()
+        event_subscriber=container.broadcast_stream_usecase()
     )
     socketio_server.resister_event()
 

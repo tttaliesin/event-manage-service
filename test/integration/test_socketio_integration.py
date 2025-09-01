@@ -26,7 +26,7 @@ class TestSimpleSocketIO:
         return sio
 
     @pytest.fixture
-    def mock_socketio_inbound_port(self) -> AsyncMock:
+    def event_subscriber(self) -> AsyncMock:
         """EventSubscriber 모킹"""
         port = AsyncMock()
         port.handle_client_connect = AsyncMock()
@@ -47,19 +47,17 @@ class TestSimpleSocketIO:
         return Mock()
 
     @pytest.fixture
-    def socketio_adapter(self, mock_socketio_server: Mock, mock_socketio_inbound_port: AsyncMock, mock_event_logger: Mock) -> SocketIOServer:
+    def socketio_adapter(self, mock_socketio_server: Mock, event_subscriber: AsyncMock, mock_event_logger: Mock) -> SocketIOServer:
         """SocketIOServer 인스턴스"""
         return SocketIOServer(
             sio=mock_socketio_server,
-            socketio_inbound_port=mock_socketio_inbound_port,
-            event_logger=mock_event_logger
+            event_subscriber=event_subscriber,
         )
 
-    def test_adapter_initialization(self, socketio_adapter: SocketIOServer, mock_socketio_server: Mock, mock_socketio_inbound_port: AsyncMock, mock_event_logger: Mock) -> None:
+    def test_adapter_initialization(self, socketio_adapter: SocketIOServer, mock_socketio_server: Mock, event_subscriber: AsyncMock, mock_event_logger: Mock) -> None:
         """어댑터 초기화 테스트"""
         assert socketio_adapter.sio is mock_socketio_server
-        assert socketio_adapter.socketio_inbound_port is mock_socketio_inbound_port
-        assert socketio_adapter.event_logger is mock_event_logger
+        assert socketio_adapter.event_subscriber is event_subscriber
 
     def test_event_registration(self, socketio_adapter: SocketIOServer, mock_socketio_server: Mock) -> None:
         """이벤트 등록이 오류 없이 완료되는지 테스트"""
@@ -79,11 +77,11 @@ class TestSimpleSocketIO:
         assert hasattr(socketio_adapter, 'socketio_inbound_port')
         assert hasattr(socketio_adapter, 'event_logger')
 
-    def test_adapter_dependencies_injection(self, socketio_adapter: SocketIOServer, mock_socketio_server: Mock, mock_socketio_inbound_port: AsyncMock, mock_event_logger: Mock) -> None:
+    def test_adapter_dependencies_injection(self, socketio_adapter: SocketIOServer, mock_socketio_server: Mock, event_subscriber: AsyncMock, mock_event_logger: Mock) -> None:
         """의존성이 적절히 주입되었는지 테스트"""
         # 의존성 주입이 올바르게 작동했는지 테스트
         assert socketio_adapter.sio is mock_socketio_server
-        assert socketio_adapter.socketio_inbound_port is mock_socketio_inbound_port
+        assert socketio_adapter.socketio_inbound_port is event_subscriber
         assert socketio_adapter.event_logger is mock_event_logger
 
     def test_socketio_server_integration_points(self, socketio_adapter: SocketIOServer) -> None:
@@ -98,11 +96,11 @@ class TestSimpleSocketIO:
         # 어댑터가 여전히 작동해야 함
         assert socketio_adapter.sio is not None
         
-    def test_handler_error_resilience(self, socketio_adapter: SocketIOServer, mock_socketio_inbound_port: AsyncMock) -> None:
+    def test_handler_error_resilience(self, socketio_adapter: SocketIOServer, event_subscriber: AsyncMock) -> None:
         """어댑터가 설정을 우아하게 처리하는지 테스트"""
         # 포트에 문제가 있어도 어댑터가 크래시되지 않아야 함
         socketio_adapter.resister_event()
         
         # 어댑터가 여전히 작동해야 함
         assert socketio_adapter.sio is not None
-        assert socketio_adapter.socketio_inbound_port is not None
+        assert socketio_adapter.event_subscriber is not None
